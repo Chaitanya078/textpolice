@@ -14,9 +14,9 @@ A web application to check if a document's contents are plagiarised or not.
 
 ## Web Screenshots:
 
-![UI](https://ibb.co/188M4kT)
+![UI] [url=https://ibb.co/188M4kT][img]https://i.ibb.co/188M4kT/Screenshot-2023-05-01-165933.png[/img][/url]
 
-![Plagiarised data](https://ibb.co/4SW4B9h)
+![Plagiarised data] [url=https://ibb.co/4SW4B9h][img]https://i.ibb.co/4SW4B9h/Screenshot-2023-05-01-165908.png[/img][/url]
 
 
 ## Run Locally
