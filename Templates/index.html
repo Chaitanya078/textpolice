@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="widht=device-width, initial-scale=1.0"/>
+    <!-- Font Awesome 5.15.1 CSS -->
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css'>
+    <title>Plagiarism Checker</title>
+  </head>
+  <style>
+    @import url(https://fonts.googleapis.com/css?family=Open+Sans);
+    @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"); 
+
+
+  body{
+      height: 100vh;
+      background-color: black;
+      background-image: url("{{ url_for('static', filename='background.png') }}");
+      background-size: cover;
+      background-position: center;
+  }
+  li{
+    list-style: none;
+  }
+  b {
+    font-family: 'Times New Roman', Times, serif;
+    text-decoration: none;
+    color: #fff;
+    font-size: 1rem;
+    transition: 0.5s;
+    
+  }
+
+  b::after {
+        position: absolute;
+        content: "";
+        top: 100%;
+        left: 0;
+        width: 105%;
+        height: 5px;
+        background: #3498db;
+        transform: scaleX(0);
+        transform-origin: right;
+        transition: transform 0.5s;
+      }
+
+      b:hover {
+        color: #95a5a6;
+      }
+
+      b:hover::after {
+        transform: scaleX(1);
+        transform-origin: left;
+      }
+
+  .text-area{
+      width: 100%;
+      height: 157px;
+  }
+  
+  h1 {
+    font-family: 'Times New Roman', Times, serif;
+      margin: auto;
+      
+      margin-top: 7%;
+      padding: 0 0 20px;
+      text-align: center;
+      font-size: 50px;
+      text-transform: uppercase;
+      color: #fff;
+      text-shadow: #333;
+  }
+
+  h2 {
+    font-family: 'Times New Roman', Times, serif;
+    background-color: rgba(125, 117, 117, 0.5);
+    border-radius: 30px;
+    font-weight: bold;
+    width: auto;
+    height: auto;
+    padding: 5px 30px 5px 30px;
+    margin-top: -0.3%;
+    
+    font-size: 40px;
+    color: #fff;
+  }
+
+
+  .header {
+    size: 10%;
+    height: 100px;
+    width: 100%;
+    padding-top: -20%;
+    background-color: rgba(162, 50, 50, 0.2);
+    background-position: center;
+    background-size: 5%;
+    position: relative;
+  }
+
+  nav {
+    height: 60px;
+    display: flex;
+    padding: 2% 6%;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  nav img {
+    width: 150px;
+  }
+
+  .nav-links {
+    flex: 1;
+    text-align: right;
+  }
+
+  .nav-links ul li{
+    list-style: none;
+    display: inline-block;
+    padding: 8px 12px;
+    position: relative;
+  }
+
+  .nav-links ul li a{
+    color: #fff;
+    text-decoration: none;
+    font-size: 20px;
+  }
+
+  html, body, .page {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  transition: all .8s cubic-bezier(0.54, 0.35, 0.29, 0.99);
+  -webkit-transition: all .8s cubic-bezier(0.54, 0.35, 0.29, 0.99);
+  -moz-transition: all .8s cubic-bezier(0.54, 0.35, 0.29, 0.99);
+  -o-transition: all .8s cubic-bezier(0.54, 0.35, 0.29, 0.99);  
+  color: #fff;
+  overflow: hidden; 
+}
+
+* {
+  font-family: 'Times New Roman', Times, serif;
+}
+
+.page {
+  position: absolute;
+}
+
+#p1 {
+  left: 0;
+}
+
+#p2, #p3, #p4, #p5 {
+  left: 200%;
+}
+
+#p2 { background: tomato; }
+#p3 { background: gold; }
+#p4 { background: deeppink; }
+#p5 { background: rebeccapurple; }
+
+#t2:target #p2,
+#t3:target #p3,
+#t4:target #p4,
+#t5:target #p5 {
+  transform: translateX(-190%);
+  -webkit-transform: translateX(-190%);
+  -moz-transform: translateX(-190%);
+  -o-transform: translateX(-190%);
+  transition-delay: .4s !important;
+}
+
+#t2:target #p1, 
+#t3:target #p1,
+#t4:target #p1,
+#t5:target #p1{
+  background: black;
+}
+
+#t2:target #p1 .icon, 
+#t3:target #p1 .icon,
+#t4:target #p1 .icon,
+#t5:target #p1 .icon {
+filter: blur(3px);
+}
+
+.icon {
+  color: #fff;
+  font-size: 32px;
+  display: block;
+}
+
+ul .icon:hover {
+  opacity: 0.5;
+}
+
+.page .icon .title {
+  line-height: 2;
+}
+
+#t2:target ul .icon,
+#t3:target ul .icon,
+#t4:target ul .icon,
+#t5:target ul .icon{
+  transform: scale(.6);
+  -webkit-transform: scale(.6);
+  -moz-transform: scale(.6);
+  -o-transform: scale(.6);
+  transition-delay: .25s;
+}
+
+#t2:target #dos,
+#t3:target #tres,
+#t4:target #cuatro,
+#t4:target #cinco {
+  transform: scale(1.2) !important;
+  -webkit-transform: scale(1.2) !important;
+  -moz-transform: scale(1.2) !important;
+  -o-transform: scale(1.2) !important;
+}
+
+
+#menu .icon {
+  margin: 30px 0;
+  transition: all .5s ease-out !important;
+  -webkit-transition: all .5s ease-out;
+  -moz-transition: all .5s ease-out;
+  -o-transition: all .5s ease-out;
+}
+
+a {
+  font-family: 'Times New Roman', Times, serif;
+  font-size: large;
+  text-decoration: none;
+}
+
+.title, .hint {
+  display: block;
+}
+
+.title {
+  font-size: 38px;
+}
+
+.hint {
+  font-size: 13px;
+}
+
+#p4 .hint {
+  display: inherit !important;
+}
+
+.hint a {
+  color: yellow;
+  transition: all 250ms ease-out;
+  -webkit-transition: all 250ms ease-out;
+  -moz-transition: all 250ms ease-out;
+  -o-transition: all 250ms ease-out;
+}
+
+.hint a:hover {
+  color: #FFF;
+}
+
+.line-trough {
+  text-decoration: line-through;
+}
+
+.page .icon {
+  justify-content: end;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 10%;
+    left: 0;
+    width: 1000px;
+    height: 480px;
+    margin: auto;
+    text-align: center;
+    line-height: 1.6;
+    transform: translateX(360%);
+    -webkit-transform: translateX(360%);
+    -moz-transform: translateX(360%);
+    -o-transform: translateX(360%);
+    transition: all .5s cubic-bezier(.25, 1, .5, 1.25);
+    -webkit-transition: all .5s cubic-bezier(.25, 1, .5, 1.25);
+    -moz-transition: all .5s cubic-bezier(.25, 1, .5, 1.25);
+    -o-transition: all .5s cubic-bezier(.25, 1, .5, 1.25);
+}
+
+.page#p1 .icon {
+  height: 220px;
+}
+
+.page#p1 .icon {
+  transform: translateX(10%) !important;
+}
+
+#t2:target .page#p2 .icon,
+#t3:target .page#p3 .icon,
+#t4:target .page#p4 .icon,
+#t5:target .page#p5 .icon {
+  transform: translateX(0) !important;
+  -webkit-transform: translateX(0) !important;
+  -moz-transform: translateX(0) !important;
+  -o-transform: translateX(0) !important;
+  transition-delay: 1s;
+}
+
+
+  
+  .wrapper .icon{
+  position: relative;
+  background-color: #ffffff;
+  border-radius: 50%;
+  margin: 10px;
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
+  font-size: 22px;
+  display: inline-block;
+  align-items: center;
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  color: #333;
+  text-decoration: none;
+}
+.wrapper .tooltip {
+  position: absolute;
+  top: 0;
+  line-height: 1.5;
+  font-size: 14px;
+  background-color: #ffffff;
+  color: #ffffff;
+  padding: 5px 8px;
+  border-radius: 5px;
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+.wrapper .tooltip::before {
+  position: absolute;
+  content: "";
+  height: 8px;
+  width: 8px;
+  background-color: #ffffff;
+  bottom: -3px;
+  left: 50%;
+  transform: translate(-50%) rotate(45deg);
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+.wrapper .icon:hover .tooltip {
+  top: -45px;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+.wrapper .icon:hover span,
+.wrapper .icon:hover .tooltip {
+  text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.1);
+}
+.wrapper .facebook:hover,
+.wrapper .facebook:hover .tooltip,
+.wrapper .facebook:hover .tooltip::before {
+  background-color: #3b5999;
+  color: #ffffff;
+}
+.wrapper .twitter:hover,
+.wrapper .twitter:hover .tooltip,
+.wrapper .twitter:hover .tooltip::before {
+  background-color: #46c1f6;
+  color: #ffffff;
+}
+.wrapper .instagram:hover,
+.wrapper .instagram:hover .tooltip,
+.wrapper .instagram:hover .tooltip::before {
+  background-color: #e1306c;
+  color: #ffffff;
+}
+.wrapper .github:hover,
+.wrapper .github:hover .tooltip,
+.wrapper .github:hover .tooltip::before {
+  background-color: #333333;
+  color: #ffffff;
+}
+.wrapper .youtube:hover,
+.wrapper .youtube:hover .tooltip,
+.wrapper .youtube:hover .tooltip::before {
+  background-color: #de463b;
+  color: #ffffff;
+}
+
+  button {
+    font-family: 'Times New Roman', Times, serif;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    border-radius: 50px;
+    font-size: 20px;
+    margin: 4px 2px;
+    cursor: pointer;
+    background-color: blue;
+  }
+  textarea {
+    font-family: 'Times New Roman', Times, serif;
+    width: 600px;
+    height: 250px;
+    font-size: 15px;
+    border-radius: 15px;
+    padding-left: 18px;
+    padding-top: 18px;
+    padding-right: 18px;
+  }
+
+  h3 {
+    font-family: 'Times New Roman', Times, serif;
+    letter-spacing: 1px;
+    font-size:18px;
+    color: #ffffff;
+  }
+
+  label {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 20px;
+    color: #fff;
+  }
+  .copyright_footer {
+      font-family: 'Times New Roman', Times, serif;
+      position: fixed;
+      color: #000000;
+      bottom: 0;
+      width: 100%;
+      
+      line-height: 3;
+      text-align: center;
+      left: 0;
+  }
+
+ 
+body {
+  margin:0;
+}
+
+p {
+  font-family: 'Times New Roman', Times, serif;
+  letter-spacing: 1px;
+  font-size:20px;
+  color: #333333;
+  font-weight: bold;
+}
+
+.flex { /*Flexbox for containers*/
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.waves {
+  position:fixed;
+  width: 100%;
+  height:100vh;
+  bottom: 0;
+  /*margin-bottom:-110px; /*Fix for safari gap*/
+  min-height:100px;
+  max-height:100px;
+}
+
+.content {
+  position:relative;
+  height:20vh;
+  text-align:center;
+  background-color: white;
+}
+
+/* Animation */
+
+.parallax > use {
+  animation: move-forever 25s cubic-bezier(.55,.5,.45,.5)     infinite;
+}
+.parallax > use:nth-child(1) {
+  animation-delay: -2s;
+  animation-duration: 5s;
+}
+.parallax > use:nth-child(2) {
+  animation-delay: -3s;
+  animation-duration: 7s;
+}
+.parallax > use:nth-child(3) {
+  animation-delay: -4s;
+  animation-duration: 10s;
+}
+.parallax > use:nth-child(4) {
+  animation-delay: -5s;
+  animation-duration: 15s;
+}
+@keyframes move-forever {
+  0% {
+   transform: translate3d(-90px,0,0);
+  }
+  100% { 
+    transform: translate3d(85px,0,0);
+  }
+}
+
+.text-box {
+  	position: absolute;
+  	top: 50%;
+  	left: 50%;
+  	transform: translate(-50%, -50%);
+  	text-align: center;
+}
+
+.heading-primary {
+  	color: #fff;
+  	text-transform: uppercase;
+
+  	backface-visibility: hidden;
+  	margin-bottom: 30px;
+}
+
+.heading-primary-main {
+  	display: block;
+  	font-size: 26px;
+  	font-weight: 400;
+  	letter-spacing: 5px;
+}
+
+.heading-primary-sub {
+  	display: block;
+  	font-size: 18px;
+  	font-weight: 700;
+  	letter-spacing: 7.4px;
+}
+
+.btn:link,
+.btn:visited {
+  	text-transform: uppercase;
+  	text-decoration: none;
+  	padding: 10px 20px;
+  	display: inline-block;
+  	border-radius: 100px;
+  	transition: all .2s;
+  	position: relative;
+}
+
+.btn:hover {
+  	transform: translateY(-3px);
+  	box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.btn:active {
+  	transform: translateY(-1px);
+  	box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.btn-white {
+  	background-color: #fff;
+  	color: #777;
+	font-size: 14px;
+}
+</style>
+
+
+   
+<body>
+ 
+<div class="ct" id="t1">
+  <div class="ct" id="t2">
+    <div class="ct" id="t3">
+      <div class="ct" id="t4">
+         <div class="ct" id="t5">
+          
+          <div class="page" id="p1">
+            <form action="/report" method="POST">
+
+
+              <center>
+              <h1>Plagiarism Checker</h1>
+              <!--<label>Paste your text here:</label><br>-->
+              
+              <textarea id="area" placeholder="Enter your Text Here" plac for="fname" name='text' rows="200" cols="100"></textarea>
+              
+              <div class="container">
+              <h3 class="result">
+                <span id="word">0</span> Words and
+                  <span id="char">0</span> Characters
+              </h3>
+              </div>
+
+              <script>
+                let area = document.getElementById('area');
+                let char = document.getElementById('char');
+                let word = document.getElementById('word');
+          
+                area.addEventListener('input', function () {
+                    // count characters 
+                    let content = this.value;
+                    char.textContent = content.length;
+          
+                    // remove empty spaces from start and end 
+                    content.trim();
+                    console.log(content);
+          
+                    let wordList = content.split(/\s/);
+          
+                    // Remove spaces from between words 
+                    let words = wordList.filter(function (element) {
+                        return element != "";
+                    });
+          
+                    // count words 
+                    word.textContent = words.length;
+                });
+            </script>
+
+              <button type="Submit" value="Send">Check Plagiarism</button>
+              <br>
+              <a>You will be redirected once your report is generated.</a>
+              <br>
+              <a>Time to generate report depends on length of text.</a>
+        
+               
+              
+              </center>
+        
+              
+
+            </form>
+          </div>
+          <div class="page" id="p2">
+            <section class="icon fafa-keyboard-oo"><span class="title">ABOUT
+              <br>
+              <p>The project “Plagiarism Checker” is to solve the problem of plagiarism which is caused by not giving proper citations/credits to original authors. The project includes information about types of plagiarism experienced by respondents. We conclude that plagiarism detection is necessary in academics and research organizations. With the evolution of the internet and the need for information the plagiarism continues to be a concern. The system proposed has the ability to detect not only that there is plagiarism but also the probabilities of the existence of each type of plagiarism. This is a generic project because still it is enhanced, and those things will be seen in future enhancement.</p>
+
+            </span></section>
+          </div>  
+          <div class="page" id="p3">
+            <section class="icon fafa-plus-circle"><span class="title">CONTACT<br>
+              <p>Chaitanya Bhoir  [EU1212084]<br>
+              Divyesha  Bari  [EU1212035]<br>
+              Jui  Bhanushali  [EU1212022]<br>
+              Riya Bhabal  [EU1212053]</p>
+
+            <div class="wrapper">
+              <a href="https://www.facebook.com/chaitanya.bhoir.3158" class="icon facebook">
+                <div class="tooltip">Facebook</div>
+                <span><i class="fab fa-facebook-f"></i></span>
+              </a>
+              <a href="https://twitter.com/chaitanyabhoir_" class="icon twitter">
+                <div class="tooltip">Twitter</div>
+                <span><i class="fab fa-twitter"></i></span>
+              </a>
+              <a href="https://www.instagram.com/c.h.a.i.t.a.n.y.a___/" class="icon instagram">
+                <div class="tooltip">Instagram</div>
+                <span><i class="fab fa-instagram"></i></span>
+              </a>
+              <a href="https://github.com/Chaitanya078" class="icon github">
+                <div class="tooltip">Github</div>
+                <span><i class="fab fa-github"></i></span>
+              </a>
+              <a href="https://www.youtube.com/channel/UCh3Ab0LYvcuGBxPI0medgeg" class="icon youtube">
+                <div class="tooltip">Youtube</div>
+                <span><i class="fab fa-youtube"></i></span>
+              </a>
+            </div>
+
+          </span></section>
+
+          </div>
+          <div class="page" id="p4">
+            <section class="icon fafa-dribbble">
+              <span class="title">LICENSE</span>
+              <p class="hint">
+                <a>
+
+                  Copyright (c) 2023 Group9team
+                  
+                  Permission is hereby granted, free of charge, to any person obtaining a copy
+                  of this software and associated documentation files (the "Software"), to deal
+                  in the Software without restriction, including without limitation the rights
+                  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+                  copies of the Software, and to permit persons to whom the Software is
+                  furnished to do so, subject to the following conditions:<br><br>
+                  
+                  The above copyright notice and this permission notice shall be included in all
+                  copies or substantial portions of the Software.<br><br>
+                  
+                  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+                  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+                  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+                  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+                  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+                  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+                  SOFTWARE.</a>
+              </p>
+            </section>
+          </div> 
+          <div class="page" id="p5">
+            <section class="icon fa fa-plus-circle">
+              <span class="title">More</span>
+              <p class="hint">
+                <span><a>future work</a></span><br/>
+              </p>
+            </section>
+          </div> 
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  
+  
+    <section class="header">
+      <nav>
+          
+        <h2>PROJECT</h2>
+        <div class="nav-links">
+          <ul>
+            <li><b><a href="#t1">HOME</a></b></li>
+            <li><b><a href="#t4">POLICY</a></b></li>
+            <li><b><a href="#t2">ABOUT</a></b></li>
+            <li><b><a href="#t5">MORE</a></b></li>
+            <li><b><a href="#t3">CONTACT</a></b></li>
+          </ul>
+        </div>
+      </nav>
+
+    </section>
+
+    <!--Waves Container-->
+    <div>
+      <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+      viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+      <defs>
+      <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+      </defs>
+      <g class="parallax">
+      <use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(255,255,255,0.7)" />
+      <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(255,255,255,0.5)" />
+      <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(255,255,255,0.3)" />
+      <use xlink:href="#gentle-wave" x="48" y="7" fill="#fff" />
+      </g>
+      </svg>
+      </div>
+      <!--Waves end-->
+      
+      </div>
+      <!--Header ends-->
+      
+      
+      <!--<div class="copyright_footer">
+      © 2023 Group9team. All Rights Reserved |
+      Developed By <b>Group9team.</b>-->
+      
+      
+      </div>
+
+  </body>
+</html>
